@@ -1,7 +1,5 @@
 package model.persistence;
 
-import javax.json.bind.annotation.JsonbProperty;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class task {
