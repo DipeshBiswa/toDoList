@@ -1,1 +1,1 @@
-The repo for a simple poroject for a To-Do-List
+The repo for a simple project for a To-Do-List
