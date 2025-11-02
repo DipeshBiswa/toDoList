@@ -1,0 +1,13 @@
+[
+    {
+        "id": 1,
+        "name": "Buy groceries",
+        "description": "Pick up milk, eggs, and bread from the store"
+      },
+      {
+        "id": 2,
+        "name": "Finish homework",
+        "description": "Complete the programming assignment for SWEN-344"
+      }
+    
+]
