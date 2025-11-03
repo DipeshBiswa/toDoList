@@ -1,5 +1,6 @@
-package model.persistence;
+package com.codewithd.todolist.model.persistence;
 
+import com.codewithd.todolist.model.task;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -111,7 +112,7 @@ public class TaskFileDAO implements TaskDAO {
     @Override
     public task createTask(task task) throws IOException {
         synchronized(tasks){
-            task newTask = new task(task.getName(), nextId(), task.getDescription());
+            task newTask = new task(task.getName(), nextId(), task.getDescription(), task.getStatus());
             tasks.put(task.getId(),newTask);
             save();
             return newTask;

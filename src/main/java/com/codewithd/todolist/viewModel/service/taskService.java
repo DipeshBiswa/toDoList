@@ -1,20 +1,33 @@
-package model.viewModel.service;
+package com.codewithd.todolist.viewModel.service;
 
 import java.io.IOException;
 
 import org.springframework.stereotype.Component;
 
-import model.persistence.TaskFileDAO;
-import model.persistence.task;
+import com.codewithd.todolist.model.task;
+import com.codewithd.todolist.model.persistence.TaskDAO;
 
 @Component
+/**
+ * class representing the service for task
+ */
 public class taskService {
-    private final TaskFileDAO taskDAO;
     
-    public taskService(TaskFileDAO taskDAO){
+    private final TaskDAO taskDAO;
+    
+    /**
+     * constructor
+     * @param taskDAO is instance of the taskDAO which is used as dependency injection 
+     */
+    public taskService(TaskDAO taskDAO){
         this.taskDAO = taskDAO;
     }
-
+    
+    /**
+     * method used to get all the tasks from the file
+     * @return
+     * @throws IOException
+     */
     public task[] getTasks() throws IOException{
         return taskDAO.getTasks();
     }

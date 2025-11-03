@@ -1,7 +1,9 @@
-package model.persistence;
+package com.codewithd.todolist.model.persistence;
 
 
 import java.io.IOException;
+
+import com.codewithd.todolist.model.task;
 
 /**
  * Defines the interface for task object persistence

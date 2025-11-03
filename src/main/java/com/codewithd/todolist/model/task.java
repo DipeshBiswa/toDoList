@@ -1,4 +1,4 @@
-package model.persistence;
+package com.codewithd.todolist.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -10,6 +10,8 @@ public class task {
     private int id;
     @JsonProperty("description")
     private String description;
+    @JsonProperty("status")
+    private boolean status;
 
     /**
      *
@@ -21,11 +23,12 @@ public class task {
      */
     public task(@JsonProperty("name") String name,
                 @JsonProperty("id") int id,
-                @JsonProperty("description") String description) {
+                @JsonProperty("description") String description,
+                @JsonProperty("status") boolean status) {
         this.name = name;
         this.id = id;
         this.description = description;
-
+        this.status = status;
     }
 
     /**
@@ -50,6 +53,14 @@ public class task {
      */
     public int getId(){
         return this.id;
+    }
+
+    /**
+     * 
+     * @return the status 
+     */
+    public boolean getStatus(){
+        return this.status;
     }
 
     /**

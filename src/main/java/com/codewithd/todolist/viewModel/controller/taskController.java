@@ -1,4 +1,4 @@
-package model.viewModel.controller;
+package com.codewithd.todolist.viewModel.controller;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import model.persistence.task;
-import model.viewModel.service.taskService;
+import com.codewithd.todolist.model.task;
+import com.codewithd.todolist.viewModel.service.taskService;
 
 
 @RestController
