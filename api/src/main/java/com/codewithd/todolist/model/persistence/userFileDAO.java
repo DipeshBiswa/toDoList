@@ -75,20 +75,6 @@ public class userFileDAO implements userDAO {
     }
 
     @Override
-    public user[] getUsers() throws IOException {
-        synchronized(users){
-        return getUserArray();
-        }
-    }
-
-    @Override
-    public user[] findUsers(String containsText) throws IOException {
-        synchronized(users){
-        return getUserArray(containsText);
-        }
-    }
-
-    @Override
     public user getUser(int id) throws IOException {
         synchronized(users){
             if(users.containsKey(id)){
@@ -122,14 +108,14 @@ public class userFileDAO implements userDAO {
     }
 
     @Override
-    public user updateUser(user user) throws IOException {
+    public boolean updateUser(user user) throws IOException {
         synchronized(users){
             if(users.containsKey(user.getID()) == false){
-                return null;
+                return false;
             }
             users.put(user.getID(),user);
             save();
-            return user;
+            return true;
 
         }
     }
@@ -144,6 +130,13 @@ public class userFileDAO implements userDAO {
             save();
             return true;
         }
+    }
+
+    @Override
+    public user authenciate(String username, String password) throws IOException {
+        user user = findUserByName(username);
+
+        return (user != null && user.getPassword().equals(password)) ? user:null;
     }
     
 }
