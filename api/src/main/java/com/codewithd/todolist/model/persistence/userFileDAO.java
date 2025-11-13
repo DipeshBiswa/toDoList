@@ -121,12 +121,12 @@ public class userFileDAO implements userDAO {
     }
 
     @Override
-    public boolean deleteUser(user user) throws IOException {
+    public boolean deleteUser(int userId) throws IOException {
         synchronized(users){
-            if(users.containsKey(user.getID()) == false){
+            if(users.containsKey(userId) == false){
                 return false;
             }
-            users.remove(user.getID());
+            users.remove(userId);
             save();
             return true;
         }

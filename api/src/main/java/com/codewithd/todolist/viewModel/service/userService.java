@@ -30,11 +30,11 @@ public class userService {
         user newU = new user(RNG.nextInt(), username, hashPassword(password));
         return userDAO.createUser(newU);
     }
-    public boolean deleteUser(user user) throws IOException{
-        return this.userDAO.deleteUser(user);
+    public boolean deleteUser(int userId) throws IOException{
+        return this.userDAO.deleteUser(userId);
     }
-    public user authenciate(user user) throws IOException{
-        return this.userDAO.authenciate(user.getUsername(), hashPassword(user.getPassword()));
+    public user authenciate(String userName, String password) throws IOException{
+        return this.userDAO.authenciate(userName, hashPassword(password));
 
     }
     public boolean updateUser(int id, String newUsername, String newPassword) throws IOException{
