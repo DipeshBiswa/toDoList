@@ -103,7 +103,7 @@ public class authencationService {
         LOG.log(Level.WARNING, "user {0} failed to delete", sessionToken);
         return false;
     }
-    public String getUsername(String sessionToken){
+    public String getUsername(String sessionToken) throws IOException{
         if(sessionStorage.containsKey(sessionToken)){
             int userId = sessionStorage.get(sessionToken);
             user user = userService.getUser(userId);
