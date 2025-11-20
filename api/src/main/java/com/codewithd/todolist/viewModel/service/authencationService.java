@@ -36,6 +36,33 @@ public class authencationService {
         }
         
     }
+    public boolean updateUser(String sessionToken, String userName, String password) throws IOException{
+        Integer userId = sessionStorage.get(sessionToken);
+
+        if(userId == null){
+            LOG.log(Level.WARNING, "Attempted to update user with invalid session token: {0}", sessionToken);
+            return false;
+        }
+        user user = userService.getUser(userId);
+
+        if(user == null){
+            LOG.log(Level.WARNING, "No user found for session token: {0}", sessionToken);
+            logout(sessionToken);
+            return false;
+        }
+        String newName = (userName != null && !userName.isEmpty()) ? userName : user.getUsername();
+        String newPassword = (password != null && !password.isEmpty()) ? password : null;
+
+        if(userService.updateUser(userId, newName, newPassword)){
+            LOG.log(Level.INFO, "User {0} updated successfully", userId);
+            return true;
+        }else{
+            LOG.log(Level.INFO, "Failed to update user {0}", userId);
+            return false;
+        }
+
+
+    }
     public String login(String userName, String password) throws IOException{
         user user = userService.authenciate(userName, password);
         
@@ -94,11 +121,6 @@ public class authencationService {
         LOG.log(Level.WARNING, "Session {0} user not found", sessionToken);
         return null;
     }
-    public boolean updateUser(String sessionToken, String newUsername, String newPassword){
-        return false;
-    }
-
-
     public String generateSessionKey(){
         byte[] randomBytes = new byte[16];
         StringBuilder sb = new StringBuilder();
