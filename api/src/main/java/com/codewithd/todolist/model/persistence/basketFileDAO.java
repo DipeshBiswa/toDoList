@@ -124,13 +124,15 @@ public class basketFileDAO implements basketDAO{
     }
 
     @Override
-    public void clearBasket(int userId) throws IOException {
+    public basket clearBasket(int userId) throws IOException {
        synchronized(baskets){
         if(baskets.containsKey(userId)){
             basket basket = baskets.get(userId);
             basket.clearTasks();
             save();
+            return basket;
         }
+        return null;
        }
     }
     

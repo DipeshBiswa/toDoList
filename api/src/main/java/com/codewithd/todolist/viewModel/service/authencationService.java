@@ -79,7 +79,7 @@ public class authencationService {
         }
         return null;
     }
-    public boolean logout(String sessionToken){
+    public boolean logout(String sessionToken) throws IOException{
         if(sessionStorage.containsKey(sessionToken)){
             int userId = sessionStorage.get(sessionToken);
 
@@ -111,7 +111,7 @@ public class authencationService {
         }
         return null;
     }
-    public user getUser(String sessionToken){
+    public user getUser(String sessionToken)throws IOException{
         if(sessionStorage.containsKey(sessionToken)){
             int userId = sessionStorage.get(sessionToken);
             user user = userService.getUser(userId);

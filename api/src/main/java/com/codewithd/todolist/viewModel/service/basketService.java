@@ -37,8 +37,8 @@ public class basketService {
     public boolean removeFromBasket(int userId, int taskId) throws IOException{
         return basketDAO.removeFromBasket(userId, taskId);
     }
-    public void clearBasket(int userId) throws IOException{
-        basketDAO.clearBasket(userId);
+    public basket clearBasket(int userId) throws IOException{
+       return basketDAO.clearBasket(userId);
     }
 
     

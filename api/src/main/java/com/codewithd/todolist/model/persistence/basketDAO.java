@@ -53,5 +53,5 @@ public interface basketDAO {
      * clears all task from basket
      * @param userId id of the user
      */
-    void clearBasket(int userId) throws IOException;
+    basket clearBasket(int userId) throws IOException;
 }

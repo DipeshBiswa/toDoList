@@ -3,36 +3,30 @@ package com.codewithd.todolist.viewModel.controller;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.codewithd.todolist.model.user;
 import com.codewithd.todolist.viewModel.service.authencationService;
 import com.codewithd.todolist.viewModel.service.basketService;
-import com.codewithd.todolist.viewModel.service.userService;
 
 @RestController
 @RequestMapping("users")
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials="true")
 public class userController {
     private static final Logger LOG = Logger.getLogger(userController.class.getName());
-    private final userService userService;
     private final authencationService authService;
     private final basketService basketService;
 
-    public userController(userService userService, authencationService authService, basketService basketService){
-        this.userService = userService;
+    public userController(authencationService authService, basketService basketService){
         this.authService = authService;
         this.basketService = basketService;
     }
@@ -65,44 +59,85 @@ public class userController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
     }
-    @GetMapping
-    public ResponseEntity<user> getUser(@PathVariable int id){
-        LOG.log(Level.INFO, "Get /users/{0}", id);
+    @GetMapping("/me")
+    public ResponseEntity<user> getCurrentUser(@RequestParam String sessionToken){
+        LOG.log(Level.INFO, "Getting current user");
         
-            user user = userService.getUser(id);
-            if(user != null){
-                return new ResponseEntity<>(user,HttpStatus.OK);
-            }else{
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            try {
+                user user = authService.getUser(sessionToken);
+                if (user != null){
+                    return new ResponseEntity<>(user, HttpStatus.OK);
+                }else{
+                    return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+                }
+            } catch (IOException e) {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-    @GetMapping
-    public ResponseEntity<user> getUserByName(@RequestParam String userName){
-        LOG.log(Level.INFO, "Get /users?user={username}",userName);
+    @PutMapping("/update")
+    public ResponseEntity<user> updateUser(String sessionToken, @RequestParam String username, @RequestParam String password){
+        LOG.info(String.format("updating user with session token: %s", sessionToken));
 
         try {
-            user user = userService.findUserByName(userName);
-            if(user != null){
-                return new ResponseEntity<>(user, HttpStatus.OK);
+            boolean user = authService.updateUser(sessionToken, username, password);
+            if(user){
+                return new ResponseEntity<>(HttpStatus.OK);
             }else{
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (IOException e) {
-            LOG.log(Level.SEVERE, e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<Void> createUser(@RequestParam String username, @RequestParam String password){
+        LOG.info(String.format("Creating user: %s", username));
+
+       
+        try {
+            String token = authService.createUser(username, password);
+            if(token != null){
+                user user = authService.getUser(token);
+                basketService.createBasket(user.getID());
+                return new ResponseEntity<>(HttpStatus.CREATED);
+            }else{
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+        } catch (IOException e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
+        
     }
-    // @PostMapping
-    // public ResponseEntity<user> createUser(@RequestParam String username, @RequestParam String password){
-    //     LOG.log(Level.INFO, "POST /users{0}",username);
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteUser(String sessionToken){
+        LOG.info(String.format("Attempting to delete user with session token: %s", sessionToken));
+        try{
+            if(authService.deleteUser(sessionToken)){
+                return new ResponseEntity<>(HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }catch(IOException e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(String sessionToken){
+        LOG.info(String.format("Attempting to logout with session token: %s", sessionToken));
 
-    //    try{
-    //     String token = authService.createUser(username, password);
-    //         if(token != null){
-
-    //     }
-    //    }
-    // }
+    
+            try {
+                if(authService.logout(sessionToken)){
+                    return new ResponseEntity<>(HttpStatus.OK);
+                }else{
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
+            } catch (IOException e) {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+    
+    }
     
 }
