@@ -20,7 +20,6 @@ public class basketFileDAO implements basketDAO{
     private final String filename;
 
     private Map<Integer, basket> baskets; 
-    private static int nextId; 
     public basketFileDAO(@Value("${basket.file}") String filename, ObjectMapper obj) throws IOException{
         this.filename = filename;
         this.objectMapper = obj;

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codewithd.todolist.model.user;
 import com.codewithd.todolist.viewModel.service.authencationService;
+import com.codewithd.todolist.viewModel.service.basketService;
 import com.codewithd.todolist.viewModel.service.userService;
 
 @RestController
@@ -28,10 +29,12 @@ public class userController {
     private static final Logger LOG = Logger.getLogger(userController.class.getName());
     private final userService userService;
     private final authencationService authService;
+    private final basketService basketService;
 
-    public userController(userService userService, authencationService authService){
+    public userController(userService userService, authencationService authService, basketService basketService){
         this.userService = userService;
         this.authService = authService;
+        this.basketService = basketService;
     }
 
     @GetMapping("/authenticate")
