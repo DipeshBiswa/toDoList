@@ -33,16 +33,24 @@ public class basketFileDAO implements basketDAO{
         objectMapper.writeValue(new File(filename), basketArray);
         return true;
     }
-    private boolean load() throws IOException{
+    private boolean load() throws IOException {
         baskets.clear();
-        basket[] basketArray = objectMapper.readValue(new File(filename), basket[].class);
-
-        for(basket basket:basketArray){
-            baskets.put(basket.getUserId(), basket);
-
+        File file = new File(filename);
+    
+        if(file.exists() && file.length() > 0) {
+            // File exists and has content
+            basket[] basketArray = objectMapper.readValue(file, basket[].class);
+            for(basket basket : basketArray) {
+                baskets.put(basket.getUserId(), basket);
+            }
+        } else {
+            // File missing or empty: start with empty map
+            baskets = new TreeMap<>();
+            log.warning("Basket file is missing or empty. Starting with empty baskets.");
         }
         return true;
     }
+    
     
     @Override
     public basket getBasket(int userId) {
