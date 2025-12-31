@@ -1,13 +1,14 @@
 import { Component, OnDestroy } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from '../authencation-service';
+import { Router } from '@angular/router';
 
 
 type LoginFormGroup = FormGroup<{username: FormControl<string>; password: FormControl<string>}>
 @Component({
   selector: 'app-authencation-dashboard',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './authencation-dashboard.html',
   styleUrl: './authencation-dashboard.css',
 })
@@ -26,12 +27,22 @@ export class AuthencationDashboard implements OnDestroy{
     }
     const {username, password} = this.loginForm.getRawValue();
     if(this.mode ==='login'){
-      this.auth.login(username, password);
+      this.auth.login(username, password).subscribe({
+        next:() =>{
+          this.router.navigate(['/view'])
+        }
+      })
+      
     }else{
-      this.auth.register(username, password)
+      this.auth.register(username, password).subscribe({
+        next:() =>{
+          this.router.navigate(['/view'])
+        }
+      })
     }
   }
   constructor(
+    private router: Router,
     private fb:FormBuilder,
     private auth: AuthenticationService,
   ){

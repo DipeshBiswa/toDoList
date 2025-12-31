@@ -20,14 +20,15 @@ public class userService {
         this.userDAO = userDAO;      
     }
 
-    public user getUser(int id){
-        return this.getUser(id);
+    public user getUser(int id) throws IOException {
+        return this.userDAO.getUser(id); // Correct: Calling the DAO
     }
     public user findUserByName(String username) throws IOException{
         return this.userDAO.findUserByName(username);
     }
-    public user createUser(String username, String password) throws IOException{
-        user newU = new user(RNG.nextInt(), username, hashPassword(password));
+    public user createUser(String username, String password) throws IOException {
+        // Pass -1 or 0 for the ID; the userFileDAO.createUser will overwrite it with nextId()
+        user newU = new user(0, username, hashPassword(password));
         return userDAO.createUser(newU);
     }
     public boolean deleteUser(int userId) throws IOException{
