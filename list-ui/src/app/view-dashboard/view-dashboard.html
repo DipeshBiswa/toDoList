@@ -1,0 +1,59 @@
+<div class="dashboard-wrapper">
+  <nav class="navbar">
+    <span class="brand">FocusList</span>
+    <button class="logout-btn" (click)="logout()">Logout</button>
+  </nav>
+
+  <main class="content">
+    <div class="header-row">
+      <h1>Your Workspace</h1>
+      <button class="add-main-btn" (click)="showModal = true">+ New Task</button>
+    </div>
+
+    <div class="task-grid">
+      @for (task of basket?.tasks; track task.id) {
+        <div class="task-card">
+          <div class="task-info">
+            <h3 class="task-name">{{ task.name }}</h3>
+            <p class="task-desc">{{ task.description }}</p>
+            
+            <span class="status-tag" [class.completed]="task.status">
+              {{ task.status ? 'Done' : 'In Progress' }}
+            </span>
+          </div>
+          <button class="delete-icon" (click)="deleteTask(task.id)" title="Delete Task">✕</button>
+        </div>
+      } @empty {
+        <div class="empty-state">
+          <p>Your workspace is clear. Take a moment to breathe.</p>
+        </div>
+      }
+    </div>
+  </main>
+
+  @if (showModal) {
+    <div class="modal-overlay">
+      <app-modal (close)="showModal = false">
+        <div class="modal-body">
+          <h2>New Task</h2>
+          
+          <div class="field">
+            <label for="name">What's on your mind?</label>
+            <input #taskName id="name" type="text" placeholder="Task name...">
+          </div>
+
+          <div class="field">
+            <label for="description">Additional notes</label>
+            <input #taskDescription id="description" type="text" placeholder="Short description...">
+          </div>
+
+          <div class="modal-actions">
+            <button class="btn-primary" (click)="createTask(taskName.value, taskDescription.value)">
+              Add to List
+            </button>
+          </div>
+        </div>
+      </app-modal>
+    </div>
+  }
+</div>

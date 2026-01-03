@@ -1,0 +1,33 @@
+<div class="auth-wrapper">
+    <div class="login-container">
+        <h2>{{mode === 'login' ? 'Hello again' : 'Join us'}}</h2>
+        <p class="subtitle">Take a deep breath and start your list.</p>
+
+        <form [formGroup]="loginForm" (ngSubmit)="submit()">
+            
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input id="username" type="text" formControlName="username" required autocomplete="username" placeholder="Your name">
+                @if(submitted && loginForm.controls['username'].hasError('required')){
+                    <div class="error">Please share your name.</div>
+                }
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input id="password" type="password" formControlName="password" required autocomplete="current-password" placeholder="Your secret key">
+                @if(submitted && loginForm.controls['password'].hasError('required')){
+                    <div class="error">Password is needed.</div>
+                }
+            </div>
+
+            <button type="submit" class="btn-primary" [disabled]="loginForm.invalid">
+                {{mode === 'login' ? 'Start Planning' : 'Create My Account'}}
+            </button>
+        </form>
+
+        <button type="button" class="btn-link" (click)="switchMode()">
+            {{mode === 'login' ? 'Need an account? Register' : 'Already have an account? Log in'}}
+        </button>
+    </div>
+</div>

@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap');
+
+:host {
+    /* We use Quicksand for a rounded, friendly, cozy feel */
+    font-family: 'Quicksand', sans-serif;
+}
+
+.auth-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Light Vanilla/Beige background */
+    background-color: #f0f7f4; 
+    /* Subtitle parchment-like texture */
+    background-image: 
+        linear-gradient(rgba(255,255,255,0.5) 2px, transparent 2px),
+        linear-gradient(90deg, rgba(255,255,255,0.5) 2px, transparent 2px);
+    background-size: 40px 40px;
+}
+
+.login-container {
+    background: #ffffff;
+    padding: 3rem;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 30px; /* Extra soft corners */
+    /* Soft 'clay' shadow */
+    box-shadow: 0 20px 40px rgba(188, 170, 151, 0.15); 
+    border: 1px solid #efeae4;
+    text-align: center;
+}
+
+h2 {
+    color: #5c554e; /* Warm coffee brown */
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: #a69f96;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+}
+
+.input-group {
+    margin-bottom: 1.2rem;
+    text-align: left;
+}
+
+label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #8c837a;
+    margin-bottom: 6px;
+    margin-left: 6px;
+}
+
+input {
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 15px;
+    /* Light beige border */
+    border: 1px solid #e8e2dc; 
+    background-color: #faf8f6;
+    font-size: 1rem;
+    color: #5c554e;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+input:focus {
+    outline: none;
+    border-color: #d4a373; /* Muted tan/gold */
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(212, 163, 115, 0.1);
+}
+
+input::placeholder {
+    color: #d1ccc6;
+}
+
+.error {
+    color: #bc8e8e;
+    font-size: 0.75rem;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+.btn-primary {
+    width: 100%;
+    /* Warm Sand / Tan color */
+    background-color: #d4a373; 
+    color: #ffffff;
+    padding: 15px;
+    border: none;
+    border-radius: 15px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1.5rem;
+    box-shadow: 0 4px 12px rgba(212, 163, 115, 0.2);
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: #c49463;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(212, 163, 115, 0.3);
+}
+
+.btn-primary:disabled {
+    background-color: #e5dfd9;
+    box-shadow: none;
+    cursor: not-allowed;
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    color: #a69f96;
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.btn-link:hover {
+    color: #d4a373;
+}
